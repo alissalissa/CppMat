@@ -20,11 +20,11 @@ cppmat::matrix::matrix(size_t nx,size_t ny){
 	}
 }
 
-cppmat::matrix::matrix(const cppmat::matrix &haystack){
+/*cppmat::matrix::matrix(const cppmat::matrix &haystack){
 	x=haystack.X();
 	y=haystack.Y();
 	//TODO finish this
 	data=(int**)calloc(x,sizeof(int*));
 	if(!data)
 		throw cppmat::MatrixConstructionException::create();
-}
+}*/

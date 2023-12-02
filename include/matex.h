@@ -6,15 +6,15 @@
 
 namespace cppmat{
 
-	class MatrixBaseException : std::exception {
+	class MatrixBaseException : public std::exception {
 	protected:
 		std::string message;
 	public:
 		MatrixBaseException(void);
-		virtual const char *what(void) const noexcept;
+		const char *what(void) const noexcept;
 	};
 
-	class MatrixConstructionException : MatrixBaseException {
+	class MatrixConstructionException : public MatrixBaseException {
 	public:
 		MatrixConstructionException(void);
 		static MatrixConstructionException create(void);
