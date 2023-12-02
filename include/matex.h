@@ -20,4 +20,10 @@ namespace cppmat{
 		static MatrixConstructionException create(void);
 	};
 
+	class MatrixDimennsionOOBException : public MatrixBaseException {
+	public:
+		MatrixDimennsionOOBException(void);
+		static MatrixDimennsionOOBException create(void);
+	};
+
 }

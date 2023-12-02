@@ -17,3 +17,12 @@ cppmat::MatrixConstructionException cppmat::MatrixConstructionException::create(
 	cppmat::MatrixConstructionException e;
 	return e;
 }
+
+//Matrix dimensions out of bounds
+cppmat::MatrixDimennsionOOBException::MatrixDimennsionOOBException(void) : MatrixBaseException() {
+	message="The dimensions for this matrix are invalid....";
+}
+cppmat::MatrixDimennsionOOBException cppmat::MatrixDimennsionOOBException::create(void){
+	cppmat::MatrixDimennsionOOBException ex;
+	return ex;
+}

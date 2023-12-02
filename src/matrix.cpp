@@ -34,10 +34,11 @@ cppmat::matrix::matrix(size_t nx,size_t ny){
 cppmat::matrix::matrix(const cppmat::matrix &haystack){
 	x=haystack.X();
 	y=haystack.Y();
-	//TODO finish this
-	data=(int**)calloc(x,sizeof(int*));
-	if(!data)
+	data=(x>0)?(int**)calloc(x,sizeof(int*)):NULL;
+	if(!data && x>0)
 		throw cppmat::MatrixConstructionException::create();
+	if(x<0 || y<0 || (x==0 && y>0) || (x>0 && y==0))
+		throw cppmat::MatrixDimennsionOOBException::create();
 	for(size_t i=0;i<x;i++){
 		data[i]=(int*)calloc(y,sizeof(int));
 		if(!data){
