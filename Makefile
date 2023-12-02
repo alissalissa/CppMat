@@ -2,7 +2,7 @@
 default: compile
 
 compile:
-	$(MAKE) -C build/
+    $(MAKE) -C build/
 
 clean:
-	$(MAKE) -C build/ clean
+    $(MAKE) -C build/ clean

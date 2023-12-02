@@ -17,7 +17,6 @@ namespace cppmat{
 	class MatrixConstructionException : MatrixBaseException {
 	public:
 		MatrixConstructionException(void);
-		virtual const char *what(void) const noexcept;
 		static MatrixConstructionException create(void);
 	};
 
