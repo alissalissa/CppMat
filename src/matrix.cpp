@@ -15,16 +15,44 @@ cppmat::matrix::matrix(size_t nx,size_t ny){
 		data=(int**)calloc(x,sizeof(int*));
 		if(!data)
 			throw cppmat::MatrixConstructionException::create();
-		for(int i=0;i<x;i++)
-			data[i]=(y>0)?(int*)calloc(y,sizeof(int)):NULL;
+		for(size_t i=0;i<x;i++){
+			if(y>0){
+				data[i]=(int*)calloc(y,sizeof(int));
+				if(!data[i]){
+					//We only need to free up to i, since everything has been successful up to this point
+					for(size_t j=0;j<i;j++)
+						free(data[j]);
+					throw cppmat::MatrixConstructionException::create();
+				}
+				for(size_t j=0;j<y;j++)
+					data[i][j]=0;
+			}
+		}
 	}
 }
 
-/*cppmat::matrix::matrix(const cppmat::matrix &haystack){
+cppmat::matrix::matrix(const cppmat::matrix &haystack){
 	x=haystack.X();
 	y=haystack.Y();
 	//TODO finish this
 	data=(int**)calloc(x,sizeof(int*));
 	if(!data)
 		throw cppmat::MatrixConstructionException::create();
-}*/
+	for(size_t i=0;i<x;i++){
+		data[i]=(int*)calloc(y,sizeof(int));
+		if(!data){
+			for(size_t j=0;j<i;j++)
+				free(data[j]);
+			free(data);
+			throw cppmat::MatrixConstructionException::create();
+		}
+		for(size_t j=0;j<y;j++)
+			data[i][j]=haystack.cell(i,j);
+	}
+}
+
+cppmat::matrix::~matrix(void){
+	for(size_t i=0;i<x;i++)
+		free(data[i]);
+	free(data);
+}

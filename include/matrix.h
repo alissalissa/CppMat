@@ -27,6 +27,9 @@ namespace cppmat {
 		size_t X(void) const;
 		size_t Y(void) const;
 
+		//Accessors
+		int cell(size_t,size_t) const;
+
 		//operators
 		int *operator[](size_t);
 		bool operator==(matrix);
