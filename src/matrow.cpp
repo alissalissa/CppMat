@@ -36,3 +36,18 @@ cppmat::MatrixRow::~MatrixRow(void){
 	n=-1;
 	free(values);
 }
+
+//Accessors
+size_t cppmat::MatrixRow::size(void) const {
+	return n;
+}
+
+float *cppmat::MatrixRow::Values(void) const {
+	return values;
+}
+
+float cppmat::MatrixRow::Value(size_t index) const {
+	if(index<0 || index >=n)
+		throw cppmat::MatrixDimennsionOOBException::create();
+	return values[index];
+}
