@@ -3,7 +3,7 @@
 
 //Constructors
 cppmat::MatrixRow::MatrixRow(void){
-	n=0;
+	n=-1;
 	values=NULL;
 }
 
@@ -47,7 +47,58 @@ float *cppmat::MatrixRow::Values(void) const {
 }
 
 float cppmat::MatrixRow::Value(size_t index) const {
-	if(index<0 || index >=n)
+	if(index<0 || index>=n)
 		throw cppmat::MatrixDimennsionOOBException::create();
+	assert(values);
 	return values[index];
+}
+
+//Operators
+float &cppmat::MatrixRow::operator[](size_t index){
+	if(index<0 || index>=n)
+		throw cppmat::MatrixDimennsionOOBException::create();
+	assert(values);
+	return values[index];
+}
+
+cppmat::MatrixRow cppmat::MatrixRow::operator+(float operand) const {
+	cppmat::MatrixRow dummy(n);
+	for(size_t i=0;i<n;i++)
+		dummy[i]=this->Value(i)+operand;
+	return dummy;
+}
+
+cppmat::MatrixRow cppmat::MatrixRow::operator+=(float operand){
+	cppmat::MatrixRow dummy(n);
+	for(size_t i=0;i<n;i++)
+		dummy[i]=this->Value(i)+operand;
+	this->operator=(dummy);
+	return dummy;
+}
+
+cppmat::MatrixRow cppmat::MatrixRow::operator-(float operand) const {
+	cppmat::MatrixRow dummy(n);
+	for(size_t i=0;i<n;i++)
+		dummy[i]=this->Value(i)-operand;
+	return dummy;
+}
+
+cppmat::MatrixRow cppmat::MatrixRow::operator-=(float operand){
+	cppmat::MatrixRow dummy(n);
+	for(size_t i=0;i<n;i++)
+		dummy[i]=this->Value(i)-operand;
+	this->operator=(dummy);
+	return dummy;
+}
+
+cppmat::MatrixRow cppmat::MatrixRow::operator=(const cppmat::MatrixRow& haystack){
+	n=haystack.size();
+	values=(float*)realloc(values,n*sizeof(float));
+	if(!values){
+		n=-1;
+		values=NULL;
+		throw cppmat::MatrixConstructionException::create();
+	}
+	memcpy(values,haystack.Values(),sizeof(float)*n);
+	return haystack;
 }

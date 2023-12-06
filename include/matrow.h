@@ -1,6 +1,7 @@
 //Defines a single row of a matrix
 #pragma once
 
+#include <assert.h>
 #include <cstdlib>
 #include <cstring>
 
@@ -27,6 +28,8 @@ namespace cppmat {
 		float &operator[](size_t);
 		MatrixRow operator+(float) const;
 		MatrixRow operator+=(float);
+		MatrixRow operator-(float) const;
+		MatrixRow operator-=(float);
 		MatrixRow operator=(const MatrixRow&);
     };
 }
