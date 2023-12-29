@@ -21,16 +21,16 @@ namespace cppmat {
 		//Operations
 		Matrix multiply(Matrix);
 		Matrix add(Matrix);
-		int determinant(void);
+		float determinant(void);
 		Matrix transpose(void);
 
 		//Dimensions
-		size_t X(void) const;
-		size_t Y(void) const;
+		size_t X(void) const noexcept;
+		size_t Y(void) const noexcept;
 
 		//Accessors
-		int cell(size_t,size_t) const;
-		MatrixRow get_row(size_t) const;
+		float Cell(size_t,size_t) const;
+		MatrixRow Row(size_t) const;
 
 		//operators
 		MatrixRow &operator[](size_t);

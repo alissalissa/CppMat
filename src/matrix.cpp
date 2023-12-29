@@ -30,7 +30,7 @@ cppmat::Matrix::Matrix(const cppmat::Matrix &haystack){
 		for(size_t i=0;i<y;i++){
 			rows[i].build(x);
 			for(size_t j=0;j<x;j++)
-				rows[i][j]=haystack.get_row(i)[j];
+				rows[i][j]=haystack.Cell(i,j);
 		}
 	}catch(cppmat::MatrixBaseException ex){
 		throw ex;
@@ -40,4 +40,21 @@ cppmat::Matrix::Matrix(const cppmat::Matrix &haystack){
 cppmat::Matrix::~Matrix(void){
 	if(rows)
 		free(rows);
+}
+
+//Dimensions
+size_t cppmat::Matrix::X(void) const noexcept {return x;}
+size_t cppmat::Matrix::Y(void) const noexcept {return y;}
+
+//Accessors
+float cppmat::Matrix::Cell(size_t sx,size_t sy) const {
+	if(sy<0 || sy>y || sx<0 || sx>x)
+		throw cppmat::MatrixDimennsionOOBException();
+	return rows[sy].Value(sx);
+}
+
+cppmat::MatrixRow cppmat::Matrix::Row(size_t index) const {
+	if(index<0 || index>y)
+		throw cppmat::MatrixDimennsionOOBException();
+	return rows[index];
 }
