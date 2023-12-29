@@ -17,13 +17,13 @@ namespace cppmat{
 	class MatrixConstructionException : public MatrixBaseException {
 	public:
 		MatrixConstructionException(void);
-		static MatrixConstructionException create(void);
+		//static MatrixConstructionException create(void);
 	};
 
 	class MatrixDimennsionOOBException : public MatrixBaseException {
 	public:
 		MatrixDimennsionOOBException(void);
-		static MatrixDimennsionOOBException create(void);
+		//static MatrixDimennsionOOBException create(void);
 	};
 
 }

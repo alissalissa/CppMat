@@ -9,13 +9,13 @@ cppmat::MatrixRow::MatrixRow(void){
 
 cppmat::MatrixRow::MatrixRow(size_t ns){
 	if(ns<=0)
-		throw cppmat::MatrixDimennsionOOBException::create();
+		throw cppmat::MatrixDimennsionOOBException();
 	n=ns;
 	values=(float*)calloc(n,sizeof(float));
 	if(!values){
 		n=-1;
 		values=NULL;
-		throw cppmat::MatrixConstructionException::create();
+		throw cppmat::MatrixConstructionException();
 	}
 	for(size_t i=0;i<n;i++)
 		values[i]=0;
@@ -27,7 +27,7 @@ cppmat::MatrixRow::MatrixRow(const MatrixRow &haystack){
 	if(!values){
 		n=-1;
 		values=NULL;
-		throw cppmat::MatrixConstructionException::create();
+		throw cppmat::MatrixConstructionException();
 	}
 	memcpy(values,haystack.Values(),sizeof(float)*n);
 }
@@ -48,7 +48,7 @@ float *cppmat::MatrixRow::Values(void) const {
 
 float cppmat::MatrixRow::Value(size_t index) const {
 	if(index<0 || index>=n)
-		throw cppmat::MatrixDimennsionOOBException::create();
+		throw cppmat::MatrixDimennsionOOBException();
 	assert(values);
 	return values[index];
 }
@@ -56,7 +56,7 @@ float cppmat::MatrixRow::Value(size_t index) const {
 //Operators
 float &cppmat::MatrixRow::operator[](size_t index){
 	if(index<0 || index>=n)
-		throw cppmat::MatrixDimennsionOOBException::create();
+		throw cppmat::MatrixDimennsionOOBException();
 	assert(values);
 	return values[index];
 }
@@ -112,7 +112,7 @@ cppmat::MatrixRow cppmat::MatrixRow::operator=(const cppmat::MatrixRow& haystack
 	if(!values){
 		n=-1;
 		values=NULL;
-		throw cppmat::MatrixConstructionException::create();
+		throw cppmat::MatrixConstructionException();
 	}
 	memcpy(values,haystack.Values(),sizeof(float)*n);
 	return haystack;
