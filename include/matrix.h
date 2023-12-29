@@ -4,24 +4,25 @@
 #include <cstdlib>
 
 #include "matex.h"
+#include "matrow.h"
 
 namespace cppmat {
-	class matrix{
+	class Matrix{
 	private:
 		size_t x,y; //0,0 is top left
-		int **data;
+		MatrixRow *rows;
 	public:
 		//Constructors
-		matrix(void);
-		matrix(size_t,size_t);
-		matrix(const matrix&);
-		~matrix(void);
+		Matrix(void);
+		Matrix(size_t,size_t);
+		Matrix(const Matrix&);
+		~Matrix(void);
 
 		//Operations
-		matrix multiply(matrix);
-		matrix add(matrix);
+		Matrix multiply(Matrix);
+		Matrix add(Matrix);
 		int determinant(void);
-		matrix transpose(void);
+		Matrix transpose(void);
 
 		//Dimensions
 		size_t X(void) const;
@@ -29,15 +30,16 @@ namespace cppmat {
 
 		//Accessors
 		int cell(size_t,size_t) const;
+		MatrixRow get_row(size_t) const;
 
 		//operators
-		int *operator[](size_t);
-		bool operator==(matrix);
-		bool operator!=(matrix);
-		bool operator=(const matrix&);
-		matrix operator*(matrix);
-		matrix operator*=(matrix);
-		matrix operator+(matrix);
-		matrix operator+=(matrix);
+		MatrixRow &operator[](size_t);
+		bool operator==(Matrix);
+		bool operator!=(Matrix);
+		bool operator=(const Matrix&);
+		Matrix operator*(Matrix);
+		Matrix operator*=(Matrix);
+		Matrix operator+(Matrix);
+		Matrix operator+=(Matrix);
 	};
 }

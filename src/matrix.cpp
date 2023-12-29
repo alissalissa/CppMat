@@ -2,58 +2,42 @@
 #include "matrix.h"
 
 //Constructors/destructors
-cppmat::matrix::matrix(void){
+cppmat::Matrix::Matrix(void){
 	x=0;
 	y=0;
-	data=NULL;
+	rows=NULL;
 }
 
-cppmat::matrix::matrix(size_t nx,size_t ny){
+cppmat::Matrix::Matrix(size_t nx,size_t ny){
+	if(nx<0 || ny<0)
+		throw cppmat::MatrixDimennsionOOBException();
 	x=nx;
 	y=ny;
-	if(x>0){
-		data=(int**)calloc(x,sizeof(int*));
-		if(!data)
-			throw cppmat::MatrixConstructionException();
-		for(size_t i=0;i<x;i++){
-			if(y>0){
-				data[i]=(int*)calloc(y,sizeof(int));
-				if(!data[i]){
-					//We only need to free up to i, since everything has been successful up to this point
-					for(size_t j=0;j<i;j++)
-						free(data[j]);
-					throw cppmat::MatrixConstructionException();
-				}
-				for(size_t j=0;j<y;j++)
-					data[i][j]=0;
-			}
-		}
-	}
+	rows=(cppmat::MatrixRow*)calloc(y,sizeof(cppmat::MatrixRow));
+	if(!rows)
+		throw cppmat::MatrixConstructionException();
+	for(size_t i=0;i<y;i++)
+		rows[i].build(x);
 }
 
-cppmat::matrix::matrix(const cppmat::matrix &haystack){
+cppmat::Matrix::Matrix(const cppmat::Matrix &haystack){
 	x=haystack.X();
 	y=haystack.Y();
-	data=(x>0)?(int**)calloc(x,sizeof(int*)):NULL;
-	if(!data && x>0)
+	rows=(cppmat::MatrixRow*)calloc(y,sizeof(cppmat::MatrixRow));
+	if(!rows)
 		throw cppmat::MatrixConstructionException();
-	if(x<0 || y<0 || (x==0 && y>0) || (x>0 && y==0))
-		throw cppmat::MatrixDimennsionOOBException();
-	for(size_t i=0;i<x;i++){
-		data[i]=(int*)calloc(y,sizeof(int));
-		if(!data){
-			for(size_t j=0;j<i;j++)
-				free(data[j]);
-			free(data);
-			throw cppmat::MatrixConstructionException();
+	try{
+		for(size_t i=0;i<y;i++){
+			rows[i].build(x);
+			for(size_t j=0;j<x;j++)
+				rows[i][j]=haystack.get_row(i)[j];
 		}
-		for(size_t j=0;j<y;j++)
-			data[i][j]=haystack.cell(i,j);
+	}catch(cppmat::MatrixBaseException ex){
+		throw ex;
 	}
 }
 
-cppmat::matrix::~matrix(void){
-	for(size_t i=0;i<x;i++)
-		free(data[i]);
-	free(data);
+cppmat::Matrix::~Matrix(void){
+	if(rows)
+		free(rows);
 }

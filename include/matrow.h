@@ -19,6 +19,8 @@ namespace cppmat {
 		MatrixRow(const MatrixRow&);
 		~MatrixRow(void);
 
+		void build(size_t);
+
 		//Accessors
 		size_t size(void) const;
 		float *Values(void) const;

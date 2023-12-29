@@ -37,6 +37,17 @@ cppmat::MatrixRow::~MatrixRow(void){
 	free(values);
 }
 
+void cppmat::MatrixRow::build(size_t ns){
+	if(ns<0)
+		throw cppmat::MatrixDimennsionOOBException();
+	n=ns;
+	values=static_cast<float*>(realloc(values,ns*sizeof(float)));
+	if(!values)
+		throw cppmat::MatrixConstructionException();
+	for(size_t i=0;i<n;i++)
+		values[i]=0.0;
+}
+
 //Accessors
 size_t cppmat::MatrixRow::size(void) const {
 	return n;
