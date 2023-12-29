@@ -91,6 +91,21 @@ cppmat::MatrixRow cppmat::MatrixRow::operator-=(float operand){
 	return dummy;
 }
 
+cppmat::MatrixRow cppmat::MatrixRow::operator*(float operand) const {
+	cppmat::MatrixRow dummy(n);
+	for(size_t i=0;i<n;i++)
+		dummy[i]=this->Value(i)*operand;
+	return dummy;
+}
+
+cppmat::MatrixRow cppmat::MatrixRow::operator*=(float operand){
+	cppmat::MatrixRow dummy(n);
+	for(size_t i=0;i<n;i++)
+		dummy[i]=this->Value(i)*operand;
+	this->operator=(dummy);
+	return dummy;
+}
+
 cppmat::MatrixRow cppmat::MatrixRow::operator=(const cppmat::MatrixRow& haystack){
 	n=haystack.size();
 	values=(float*)realloc(values,n*sizeof(float));
