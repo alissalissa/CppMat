@@ -19,10 +19,9 @@ namespace cppmat {
 		~Matrix(void);
 
 		//Operations
-		Matrix multiply(Matrix);
-		Matrix add(Matrix);
 		float determinant(void);
-		Matrix transpose(void);
+		Matrix transpose(void) noexcept;
+		void swap(size_t,size_t);
 
 		//Dimensions
 		size_t X(void) const noexcept;
@@ -32,11 +31,12 @@ namespace cppmat {
 		float Cell(size_t,size_t) const;
 		MatrixRow Row(size_t) const;
 
-		//operators
 		MatrixRow &operator[](size_t);
-		bool operator==(Matrix);
-		bool operator!=(Matrix);
-		bool operator=(const Matrix&);
+
+		//Operators
+		bool operator==(Matrix) const noexcept;
+		bool operator!=(Matrix) const noexcept;
+		Matrix operator=(const Matrix&);
 		Matrix operator*(Matrix);
 		Matrix operator*=(Matrix);
 		Matrix operator+(Matrix);

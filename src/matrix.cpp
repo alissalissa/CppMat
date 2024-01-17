@@ -58,3 +58,47 @@ cppmat::MatrixRow cppmat::Matrix::Row(size_t index) const {
 		throw cppmat::MatrixDimennsionOOBException();
 	return rows[index];
 }
+
+cppmat::MatrixRow &cppmat::Matrix::operator[](size_t index){
+	if(index<0 || index>y)
+		throw cppmat::MatrixDimennsionOOBException();
+	return rows[index];
+}
+
+//Operators
+bool cppmat::Matrix::operator==(cppmat::Matrix haystack) const noexcept {
+	if(x!=haystack.X() || y!=haystack.Y())
+		return false;
+	for(size_t yi=0;yi<y;yi++)
+		for(size_t xi=0;xi<x;xi++)
+			if(this->Cell(xi,yi)!=haystack.Cell(xi,yi))
+				return false;
+	return true;
+}
+
+bool cppmat::Matrix::operator!=(cppmat::Matrix haystack) const noexcept {
+	return !this->operator==(haystack);
+}
+
+cppmat::Matrix cppmat::Matrix::operator=(const cppmat::Matrix &haystack){
+	if(rows)
+		free(rows);
+	try{
+		rows=(cppmat::MatrixRow*)calloc(haystack.Y(),sizeof(cppmat::MatrixRow));
+		for(size_t yi=0;yi<haystack.Y();yi++)
+			rows[yi]=haystack.Row(yi);
+	}catch(cppmat::MatrixBaseException ex){
+		throw ex;
+	}
+	return haystack;
+}
+
+//Operations
+cppmat::Matrix cppmat::Matrix::transpose(void) noexcept{ //TODO unit test
+	cppmat::Matrix ret(y,x);
+	for(size_t ny=0;ny<this->Y();ny++)
+		for(size_t nx=0;nx<this->X();nx++)
+			ret[nx][ny]=this->Cell(nx,ny);
+	this->operator=(ret);
+	return ret;
+}
