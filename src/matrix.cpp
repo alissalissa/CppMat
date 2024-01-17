@@ -94,11 +94,19 @@ cppmat::Matrix cppmat::Matrix::operator=(const cppmat::Matrix &haystack){
 }
 
 //Operations
-cppmat::Matrix cppmat::Matrix::transpose(void) noexcept{ //TODO unit test
+cppmat::Matrix cppmat::Matrix::transpose(void) noexcept { //TODO unit test
 	cppmat::Matrix ret(y,x);
 	for(size_t ny=0;ny<this->Y();ny++)
 		for(size_t nx=0;nx<this->X();nx++)
 			ret[nx][ny]=this->Cell(nx,ny);
 	this->operator=(ret);
 	return ret;
+}
+
+void cppmat::Matrix::swap(size_t first,size_t second){ //TODO unit test
+	if(first<0 || first>=y || second<0 || second>=y)
+		throw MatrixDimennsionOOBException();
+	MatrixRow intermediary=rows[first];
+	rows[first]=rows[second];
+	rows[second]=intermediary;
 }
