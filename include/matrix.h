@@ -37,9 +37,9 @@ namespace cppmat {
 		bool operator==(Matrix) const noexcept;
 		bool operator!=(Matrix) const noexcept;
 		Matrix operator=(const Matrix&);
-		Matrix operator*(Matrix);
+		Matrix operator*(Matrix) const;
 		Matrix operator*=(Matrix);
-		Matrix operator+(Matrix);
+		Matrix operator+(Matrix) const;
 		Matrix operator+=(Matrix);
 	};
 }

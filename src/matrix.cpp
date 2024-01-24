@@ -93,6 +93,25 @@ cppmat::Matrix cppmat::Matrix::operator=(const cppmat::Matrix &haystack){
 	return haystack;
 }
 
+cppmat::Matrix cppmat::Matrix::operator+(cppmat::Matrix operant) const {
+	if(this->X() != operant.X() || this->Y() != operant.Y())
+		throw cppmat::MatrixDimennsionOOBException();
+	cppmat::Matrix ret(*this);
+	for(size_t yi=0;yi<ret.Y();yi++)
+		for(size_t xi=0;xi<ret.X();xi++)
+			ret[yi][xi]+=operant[yi][xi];
+	return ret;
+}
+
+cppmat::Matrix cppmat::Matrix::operator+=(cppmat::Matrix operant){
+	if(this->X() != operant.X() || this->Y() != operant.Y())
+		throw cppmat::MatrixDimennsionOOBException();
+	for(size_t yi=0;yi<this->Y();yi++)
+		for(size_t xi=0;xi<this->X();xi++)
+			this->operator[](yi)[xi]+=operant[yi][xi];
+	return *this;
+}
+
 //Operations
 cppmat::Matrix cppmat::Matrix::transpose(void) noexcept { //TODO unit test
 	cppmat::Matrix ret(y,x);
