@@ -14,3 +14,6 @@ libsysfile.so will be generated in the /build directory and can be linked agains
 
 Windows:<br>
 No idea how to use MS toolchains, so you're on your own.  Good luck.
+
+### Dependencies
+You're gonna need the boost unit test framework to run anything in the tests directory.

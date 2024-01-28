@@ -3,6 +3,7 @@ default: compile
 
 compile:
 	g++ -g -o exception_test -I../include -L../build -Wl,-rpath,../build -lcppmat exception_test.cpp
+	g++ -g -o matrix_test -I../include -L../build -Wl,-rpath,../build -lboost_unit_test_framework matrix_test.cpp
 
 clean:
-	rm ./exception_test
+	rm ./exception_test ./matrix_test

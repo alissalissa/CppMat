@@ -3,7 +3,7 @@
 #include "matex.h"
 
 bool thrower(void){
-	throw cppmat::MatrixConstructionException::create();
+	throw cppmat::MatrixConstructionException();
 	return true;
 }
 

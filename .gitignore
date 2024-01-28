@@ -31,3 +31,6 @@
 *.out
 *.app
 tests/exception_test
+
+# Others
+.vscode/
