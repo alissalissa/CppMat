@@ -3,7 +3,7 @@
 
 //Constructors
 cppmat::MatrixRow::MatrixRow(void){
-	n=-1;
+	n=0;
 	values=NULL;
 }
 
