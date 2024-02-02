@@ -40,3 +40,13 @@ BOOST_AUTO_TEST_CASE(row_test){
 	cppmat::MatrixRow mr3;
 	BOOST_CHECK_THROW(mr3.build(-4),cppmat::MatrixBaseException);
 }
+
+BOOST_AUTO_TEST_CASE(matrix){
+	//0
+	cppmat::Matrix m0;
+	BOOST_REQUIRE(m0.Y()==0);
+	BOOST_REQUIRE(m0.X()==0);
+	BOOST_REQUIRE(!m0.Rows());
+	BOOST_CHECK_THROW(m0.Cell(1,1),cppmat::MatrixBaseException);
+	BOOST_CHECK_THROW(m0.Row(1),cppmat::MatrixBaseException);
+}

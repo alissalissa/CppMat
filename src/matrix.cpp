@@ -50,19 +50,30 @@ size_t cppmat::Matrix::Y(void) const noexcept {return y;}
 float cppmat::Matrix::Cell(size_t sx,size_t sy) const {
 	if(sy<0 || sy>y || sx<0 || sx>x)
 		throw cppmat::MatrixDimennsionOOBException();
+	if(x==0 || y==0)
+		throw cppmat::MatrixInvalidException();
 	return rows[sy].Value(sx);
 }
 
 cppmat::MatrixRow cppmat::Matrix::Row(size_t index) const {
 	if(index<0 || index>y)
 		throw cppmat::MatrixDimennsionOOBException();
+	if(x==0 || y==0)
+		throw cppmat::MatrixInvalidException();
 	return rows[index];
 }
 
 cppmat::MatrixRow &cppmat::Matrix::operator[](size_t index){
 	if(index<0 || index>y)
 		throw cppmat::MatrixDimennsionOOBException();
+	if(x==0 || y==0)
+		throw cppmat::MatrixInvalidException();
 	return rows[index];
+}
+
+//Just for unit tests
+cppmat::MatrixRow *cppmat::Matrix::Rows(void) const noexcept {
+	return rows;
 }
 
 //Operators

@@ -26,4 +26,8 @@ namespace cppmat{
 		//static MatrixDimennsionOOBException create(void);
 	};
 
+	class MatrixInvalidException : public MatrixBaseException {
+	public:
+		MatrixInvalidException(void);
+	};
 }

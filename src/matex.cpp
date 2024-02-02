@@ -26,3 +26,7 @@ cppmat::MatrixDimennsionOOBException::MatrixDimennsionOOBException(void) : Matri
 	cppmat::MatrixDimennsionOOBException ex;
 	return ex;
 }*/
+
+cppmat::MatrixInvalidException::MatrixInvalidException(void) : cppmat::MatrixBaseException() {
+	message="Attempting to manipulate or access an invalid matrix...";
+}

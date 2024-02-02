@@ -30,6 +30,7 @@ namespace cppmat {
 		//Accessors
 		float Cell(size_t,size_t) const;
 		MatrixRow Row(size_t) const;
+		MatrixRow *Rows(void) const noexcept;
 
 		MatrixRow &operator[](size_t);
 
