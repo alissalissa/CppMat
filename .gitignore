@@ -31,6 +31,7 @@
 *.out
 *.app
 tests/exception_test
+tests/matrix_test
 
 # Others
 .vscode/

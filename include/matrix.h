@@ -42,5 +42,8 @@ namespace cppmat {
 		Matrix operator*=(Matrix);
 		Matrix operator+(Matrix) const;
 		Matrix operator+=(Matrix);
+
+		//Static
+		static Matrix identity(size_t);
 	};
 }
