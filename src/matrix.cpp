@@ -126,7 +126,7 @@ cppmat::Matrix cppmat::Matrix::operator+=(cppmat::Matrix operant){
 }
 
 //Operations
-cppmat::Matrix cppmat::Matrix::transpose(void) noexcept { //TODO unit test
+cppmat::Matrix cppmat::Matrix::transpose(void) noexcept {
 	cppmat::Matrix ret(y,x);
 	for(size_t ny=0;ny<this->Y();ny++)
 		for(size_t nx=0;nx<this->X();nx++)
@@ -135,7 +135,7 @@ cppmat::Matrix cppmat::Matrix::transpose(void) noexcept { //TODO unit test
 	return ret;
 }
 
-void cppmat::Matrix::swap(size_t first,size_t second){ //TODO unit test
+void cppmat::Matrix::swap(size_t first,size_t second){
 	if(first<0 || first>=y || second<0 || second>=y)
 		throw MatrixDimennsionOOBException();
 	MatrixRow intermediary=rows[first];
