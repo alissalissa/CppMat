@@ -59,8 +59,20 @@ BOOST_AUTO_TEST_CASE(matrix){
 	cppmat::Matrix m2(3,3);
 	BOOST_REQUIRE(m2.Y()==3);
 	BOOST_REQUIRE(m2.X()==3);
+	BOOST_REQUIRE(m2.Rows());
 	for(size_t yi=0;yi<m2.Y();yi++)
 		for(size_t xi=0;xi<m2.X();xi++)
 			BOOST_CHECK_EQUAL(m2[yi][xi],0.0);
 	BOOST_CHECK_THROW(m2[4],cppmat::MatrixBaseException);
+
+	//3
+	cppmat::Matrix m3(3,2);
+	m3[0][1]=1.0;
+	BOOST_CHECK_EQUAL(m3[0][1],1.0);
+	cppmat::Matrix m31=m3.transpose();
+	BOOST_REQUIRE(m31.X()==2);
+	BOOST_REQUIRE(m31.Y()==3);
+	BOOST_CHECK_EQUAL(m31[1][0],1.0);
+	cppmat::Matrix m32(m31);
+	BOOST_CHECK_EQUAL(m32[1][0],1.0);
 }

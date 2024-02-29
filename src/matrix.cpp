@@ -91,17 +91,18 @@ bool cppmat::Matrix::operator!=(cppmat::Matrix haystack) const noexcept {
 	return !this->operator==(haystack);
 }
 
-cppmat::Matrix cppmat::Matrix::operator=(const cppmat::Matrix &haystack){
+void cppmat::Matrix::operator=(const cppmat::Matrix &haystack){
 	if(rows)
 		free(rows);
 	try{
+		x=haystack.X();
+		y=haystack.Y();
 		rows=(cppmat::MatrixRow*)calloc(haystack.Y(),sizeof(cppmat::MatrixRow));
 		for(size_t yi=0;yi<haystack.Y();yi++)
 			rows[yi]=haystack.Row(yi);
 	}catch(cppmat::MatrixBaseException ex){
 		throw ex;
 	}
-	return haystack;
 }
 
 cppmat::Matrix cppmat::Matrix::operator+(cppmat::Matrix operant) const {
