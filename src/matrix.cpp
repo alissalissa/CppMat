@@ -30,7 +30,7 @@ cppmat::Matrix::Matrix(const cppmat::Matrix &haystack){
 		for(size_t i=0;i<y;i++){
 			rows[i].build(x);
 			for(size_t j=0;j<x;j++)
-				rows[i][j]=haystack.Cell(i,j);
+				rows[i][j]=haystack.Cell(j,i);
 		}
 	}catch(cppmat::MatrixBaseException ex){
 		throw ex;
@@ -91,7 +91,7 @@ bool cppmat::Matrix::operator!=(cppmat::Matrix haystack) const noexcept {
 	return !this->operator==(haystack);
 }
 
-void cppmat::Matrix::operator=(const cppmat::Matrix &haystack){
+cppmat::Matrix cppmat::Matrix::operator=(const cppmat::Matrix &haystack){
 	if(rows)
 		free(rows);
 	try{
@@ -103,6 +103,7 @@ void cppmat::Matrix::operator=(const cppmat::Matrix &haystack){
 	}catch(cppmat::MatrixBaseException ex){
 		throw ex;
 	}
+	return haystack;
 }
 
 cppmat::Matrix cppmat::Matrix::operator+(cppmat::Matrix operant) const {
