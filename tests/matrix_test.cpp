@@ -79,4 +79,15 @@ BOOST_AUTO_TEST_CASE(matrix){
 	BOOST_CHECK_EQUAL(m32[2][0],1.0);
 	BOOST_CHECK_EQUAL(m32[1][0],0.0);
 	BOOST_CHECK_THROW(m32.swap(4,5),cppmat::MatrixBaseException);
+
+	//4
+	cppmat::Matrix ident(cppmat::Matrix::identity(4));
+	BOOST_CHECK_EQUAL(ident.X(),4);
+	BOOST_CHECK_EQUAL(ident.Y(),4);
+	for(size_t y=0;y<ident.Y();y++)
+		for(size_t x=0;x<ident.X();x++)
+			if(x==y)
+				BOOST_CHECK_EQUAL(ident[y][x],1.0);
+			else
+				BOOST_CHECK_EQUAL(ident[y][x],0.0);
 }

@@ -142,3 +142,15 @@ void cppmat::Matrix::swap(size_t first,size_t second){
 	rows[first]=rows[second];
 	rows[second]=intermediary;
 }
+
+//Identity
+cppmat::Matrix cppmat::Matrix::identity(size_t dimension){
+	cppmat::Matrix ret(dimension,dimension);
+	for(size_t y=0;y<dimension;y++)
+		for(size_t x=0;x<dimension;x++)
+			if(y==x)
+				ret[y][x]=1.0;
+			else
+				ret[y][x]=0.0;
+	return ret;
+}
