@@ -2,6 +2,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <iostream> //for debug
 
 #include "matex.h"
 #include "matrow.h"
@@ -19,7 +20,7 @@ namespace cppmat {
 		~Matrix(void);
 
 		//Operations
-		float determinant(void);
+		float determinant(void) const;
 		Matrix transpose(void) noexcept;
 		void swap(size_t,size_t);
 
@@ -44,6 +45,7 @@ namespace cppmat {
 		Matrix operator+=(Matrix);
 
 		//Static
-		static Matrix identity(size_t);
+		static Matrix identity(size_t) noexcept;
+		static Matrix exclude_column(const cppmat::Matrix*,size_t);
 	};
 }

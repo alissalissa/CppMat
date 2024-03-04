@@ -68,7 +68,8 @@ float cppmat::MatrixRow::Value(size_t index) const {
 float &cppmat::MatrixRow::operator[](size_t index){
 	if(index<0 || index>=n)
 		throw cppmat::MatrixDimennsionOOBException();
-	assert(values);
+	if(!values)
+		throw cppmat::MatrixBaseException();
 	return values[index];
 }
 

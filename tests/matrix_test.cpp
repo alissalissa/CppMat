@@ -90,4 +90,21 @@ BOOST_AUTO_TEST_CASE(matrix){
 				BOOST_CHECK_EQUAL(ident[y][x],1.0);
 			else
 				BOOST_CHECK_EQUAL(ident[y][x],0.0);
+	
+	//5
+	cppmat::Matrix m5(3,2);
+	BOOST_CHECK_THROW(m5.determinant(),cppmat::MatrixBaseException);
+
+	//6
+	cppmat::Matrix m6(3,3);
+	m6[0][0]=6;
+	m6[0][1]=1;
+	m6[0][2]=1;
+	m6[1][0]=4;
+	m6[1][1]=-2;
+	m6[1][2]=5;
+	m6[2][0]=2;
+	m6[2][1]=8;
+	m6[2][2]=7;
+	BOOST_CHECK_EQUAL(m6.determinant(),-306);
 }
