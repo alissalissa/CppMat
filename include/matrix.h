@@ -23,10 +23,12 @@ namespace cppmat {
 		float determinant(void) const;
 		Matrix transpose(void) noexcept;
 		void swap(size_t,size_t);
+		Matrix inverse(void) const;
 
 		//Dimensions
 		size_t X(void) const noexcept;
 		size_t Y(void) const noexcept;
+		bool is_square(void) const noexcept;
 
 		//Accessors
 		float Cell(size_t,size_t) const;
@@ -41,6 +43,8 @@ namespace cppmat {
 		Matrix operator=(const Matrix&);
 		Matrix operator*(Matrix) const;
 		Matrix operator*=(Matrix);
+		Matrix operator*(const float) const noexcept;
+		Matrix operator*=(const float) noexcept;
 		Matrix operator+(Matrix) const;
 		Matrix operator+=(Matrix);
 

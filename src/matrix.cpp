@@ -45,6 +45,7 @@ cppmat::Matrix::~Matrix(void){
 //Dimensions
 size_t cppmat::Matrix::X(void) const noexcept {return x;}
 size_t cppmat::Matrix::Y(void) const noexcept {return y;}
+bool cppmat::Matrix::is_square(void) const noexcept {return x==y;}
 
 //Accessors
 float cppmat::Matrix::Cell(size_t sx,size_t sy) const {
@@ -125,6 +126,23 @@ cppmat::Matrix cppmat::Matrix::operator+=(cppmat::Matrix operant){
 	return *this;
 }
 
+cppmat::Matrix cppmat::Matrix::operator*(const float coefficient) const noexcept {
+	cppmat::Matrix ret(this->X(),this->Y());
+	for(size_t ny=0;ny<ret.Y();ny++)
+		for(size_t nx=0;nx<ret.X();nx++)
+			ret[ny][nx]=coefficient*this->Cell(nx,ny);
+	return ret;
+}
+
+cppmat::Matrix cppmat::Matrix::operator*=(const float coefficient) noexcept {
+	cppmat::Matrix temp(this->X(),this->Y());
+	for(size_t ny=0;ny<temp.Y();ny++)
+		for(size_t nx=0;nx<temp.X();nx++)
+			temp[ny][nx]=coefficient*this->Cell(nx,ny);
+	this->operator=(temp);
+	return temp;
+}
+
 //Operations
 cppmat::Matrix cppmat::Matrix::transpose(void) noexcept {
 	cppmat::Matrix ret(y,x);
@@ -143,7 +161,6 @@ void cppmat::Matrix::swap(size_t first,size_t second){
 	rows[second]=intermediary;
 }
 
-//TODO implement unit test
 float cppmat::Matrix::determinant(void) const {
 	if(this->X()!=this->Y())
 		throw cppmat::MatrixDimennsionOOBException();
@@ -183,6 +200,36 @@ float cppmat::Matrix::determinant(void) const {
 			break;
 		}
 	}
+}
+
+cppmat::Matrix cppmat::Matrix::inverse(void) const {
+	if(!this->is_square())
+		throw cppmat::MatrixDimennsionOOBException();
+	
+	if(this->X()==0)
+		throw cppmat::MatrixDimennsionOOBException();
+	else if(this->X()==1){
+		cppmat::Matrix ret(1,1);
+		ret[0][0]=1/this->Cell(0,0);
+		return ret;
+	}else if(this->X()==2){
+		cppmat::Matrix ret(2,2);
+		ret[0][0]=this->Cell(1,1);
+		ret[0][1]=this->Cell(1,0)*-1;
+		ret[1][0]=this->Cell(0,1)*-1;
+		ret[1][1]=this->Cell(0,0);
+		float coefficient = this->Cell(0,0);
+		coefficient*=this->Cell(1,1);
+		float coefficient2=this->Cell(1,0);
+		coefficient2*=this->Cell(0,1);
+		coefficient-=coefficient2;
+		coefficient*=-1;
+		ret*=coefficient;
+		return ret;
+	}
+
+	//Create the matrix of minors
+	cppmat::Matrix minors(this->X(),this->Y());
 }
 
 //Identity

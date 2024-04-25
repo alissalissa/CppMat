@@ -64,9 +64,11 @@ BOOST_AUTO_TEST_CASE(matrix){
 		for(size_t xi=0;xi<m2.X();xi++)
 			BOOST_CHECK_EQUAL(m2[yi][xi],0.0);
 	BOOST_CHECK_THROW(m2[4],cppmat::MatrixBaseException);
+	BOOST_CHECK_EQUAL(m2.is_square(),true);
 
 	//3
 	cppmat::Matrix m3(3,2);
+	BOOST_CHECK_EQUAL(m3.is_square(),false);
 	m3[0][1]=1.0;
 	BOOST_CHECK_EQUAL(m3[0][1],1.0);
 	cppmat::Matrix m31=m3.transpose();
@@ -107,4 +109,16 @@ BOOST_AUTO_TEST_CASE(matrix){
 	m6[2][1]=8;
 	m6[2][2]=7;
 	BOOST_CHECK_EQUAL(m6.determinant(),-306);
+
+	//7
+	cppmat::Matrix m7(2,2);
+	m7[0][0]=3;
+	m7[0][1]=3;
+	m7[1][0]=3;
+	m7[1][1]=3;
+	cppmat::Matrix m71=m7*2;
+	m7*=3;
+	BOOST_CHECK_EQUAL(m7[0][0],9);
+	BOOST_CHECK_EQUAL(m71[0][0],6);
+
 }
