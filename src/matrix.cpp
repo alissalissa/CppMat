@@ -126,7 +126,9 @@ cppmat::Matrix cppmat::Matrix::operator+=(cppmat::Matrix operant){
 	return *this;
 }
 
-cppmat::Matrix cppmat::Matrix::operator*(const float coefficient) const noexcept {
+cppmat::Matrix cppmat::Matrix::operator*(const float coefficient) const {
+	if(this->X()==0 || this->Y()==0)
+		throw cppmat::MatrixDimennsionOOBException();
 	cppmat::Matrix ret(this->X(),this->Y());
 	for(size_t ny=0;ny<ret.Y();ny++)
 		for(size_t nx=0;nx<ret.X();nx++)
@@ -134,13 +136,20 @@ cppmat::Matrix cppmat::Matrix::operator*(const float coefficient) const noexcept
 	return ret;
 }
 
-cppmat::Matrix cppmat::Matrix::operator*=(const float coefficient) noexcept {
+cppmat::Matrix cppmat::Matrix::operator*=(const float coefficient){
+	if(this->X()==0 || this->Y()==0)
+		throw cppmat::MatrixDimennsionOOBException();
 	cppmat::Matrix temp(this->X(),this->Y());
 	for(size_t ny=0;ny<temp.Y();ny++)
 		for(size_t nx=0;nx<temp.X();nx++)
 			temp[ny][nx]=coefficient*this->Cell(nx,ny);
 	this->operator=(temp);
 	return temp;
+}
+
+cppmat::Matrix cppmat::Matrix::operator*(const cppmat::Matrix coefficient) const {
+	if(coefficient.X()!=this->Y() || coefficient.Y()!=this->X())
+		throw cppmat::MatrixDimennsionOOBException();
 }
 
 //Operations

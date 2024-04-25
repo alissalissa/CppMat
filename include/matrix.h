@@ -43,8 +43,8 @@ namespace cppmat {
 		Matrix operator=(const Matrix&);
 		Matrix operator*(Matrix) const;
 		Matrix operator*=(Matrix);
-		Matrix operator*(const float) const noexcept;
-		Matrix operator*=(const float) noexcept;
+		Matrix operator*(const float) const;
+		Matrix operator*=(const float);
 		Matrix operator+(Matrix) const;
 		Matrix operator+=(Matrix);
 

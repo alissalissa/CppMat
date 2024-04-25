@@ -120,5 +120,7 @@ BOOST_AUTO_TEST_CASE(matrix){
 	m7*=3;
 	BOOST_CHECK_EQUAL(m7[0][0],9);
 	BOOST_CHECK_EQUAL(m71[0][0],6);
+	cppmat::Matrix m72;
+	BOOST_CHECK_THROW(m72*=3,cppmat::MatrixBaseException);
 
 }
