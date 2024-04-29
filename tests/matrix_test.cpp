@@ -123,4 +123,20 @@ BOOST_AUTO_TEST_CASE(matrix){
 	cppmat::Matrix m72;
 	BOOST_CHECK_THROW(m72*=3,cppmat::MatrixBaseException);
 
+    //8
+    cppmat::Matrix m81(3,2);
+    cppmat::Matrix m82(2,3);
+    cppmat::Matrix m83(4,1);
+    for(int i=0;i<3;i++) {
+        for (int j = 0; j < 2; j++) {
+            m81[j][i] = 2.0;
+            m82[i][j] = 3.0;
+        }
+    }
+    cppmat::Matrix check=m81*m82;
+    BOOST_CHECK_EQUAL(check[0][0],6.0);
+    m81*=m82;
+    BOOST_CHECK_EQUAL(m81[0][0],6.0);
+    BOOST_CHECK_THROW(m81*m83,cppmat::MatrixBaseException);
+
 }

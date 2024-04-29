@@ -9,7 +9,7 @@ cppmat::MatrixRow::MatrixRow(void){
 
 cppmat::MatrixRow::MatrixRow(size_t ns){
 	if(ns<=0)
-		throw cppmat::MatrixDimennsionOOBException();
+		throw cppmat::MatrixDimensionOOBException();
 	n=ns;
 	values=(float*)calloc(n,sizeof(float));
 	if(!values){
@@ -39,7 +39,7 @@ cppmat::MatrixRow::~MatrixRow(void){
 
 void cppmat::MatrixRow::build(size_t ns){
 	if(ns<0)
-		throw cppmat::MatrixDimennsionOOBException();
+		throw cppmat::MatrixDimensionOOBException();
 	n=ns;
 	values=static_cast<float*>(realloc(values,ns*sizeof(float)));
 	if(!values)
@@ -59,7 +59,7 @@ float *cppmat::MatrixRow::Values(void) const {
 
 float cppmat::MatrixRow::Value(size_t index) const {
 	if(index<0 || index>=n)
-		throw cppmat::MatrixDimennsionOOBException();
+		throw cppmat::MatrixDimensionOOBException();
 	assert(values);
 	return values[index];
 }
@@ -67,7 +67,7 @@ float cppmat::MatrixRow::Value(size_t index) const {
 //Operators
 float &cppmat::MatrixRow::operator[](size_t index){
 	if(index<0 || index>=n)
-		throw cppmat::MatrixDimennsionOOBException();
+		throw cppmat::MatrixDimensionOOBException();
 	if(!values)
 		throw cppmat::MatrixBaseException();
 	return values[index];

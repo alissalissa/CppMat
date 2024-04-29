@@ -1,7 +1,7 @@
 #Building the matrix library
-default: compile
+default: all
 
-compile: matex.o matrix.o matrow.o
+all: matex.o matrix.o matrow.o
 	g++ -g -o libcppmat.so matrow.o matex.o matrix.o -fPIC -shared
 
 matex.o:

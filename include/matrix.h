@@ -38,8 +38,8 @@ namespace cppmat {
 		MatrixRow &operator[](size_t);
 
 		//Operators
-		bool operator==(Matrix) const noexcept;
-		bool operator!=(Matrix) const noexcept;
+		bool operator==(const Matrix&) const noexcept;
+		bool operator!=(const Matrix&) const noexcept;
 		Matrix operator=(const Matrix&);
 		Matrix operator*(Matrix) const;
 		Matrix operator*=(Matrix);

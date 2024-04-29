@@ -2,15 +2,19 @@
 #include "matex.h"
 
 //Base exception
-cppmat::MatrixBaseException::MatrixBaseException(void) : std::exception() {
+cppmat::MatrixBaseException::MatrixBaseException() : std::exception() {
 	message="Something is wrong somewhere with a matrix object....";
 }
-const char *cppmat::MatrixBaseException::what(void) const noexcept{
+const char *cppmat::MatrixBaseException::what() const noexcept{
 	return message.c_str();
 }
 
+cppmat::MatrixBaseException::MatrixBaseException(const cppmat::MatrixBaseException &haystack) {
+    message=haystack.what();
+}
+
 //MatrixConstructionException
-cppmat::MatrixConstructionException::MatrixConstructionException(void) : cppmat::MatrixBaseException() {
+cppmat::MatrixConstructionException::MatrixConstructionException() : cppmat::MatrixBaseException() {
 	message="Error encountered while trying to construct a matrix object...";
 }
 /*cppmat::MatrixConstructionException cppmat::MatrixConstructionException::create(void){
@@ -19,14 +23,14 @@ cppmat::MatrixConstructionException::MatrixConstructionException(void) : cppmat:
 }*/
 
 //Matrix dimensions out of bounds
-cppmat::MatrixDimennsionOOBException::MatrixDimennsionOOBException(void) : MatrixBaseException() {
+cppmat::MatrixDimensionOOBException::MatrixDimensionOOBException() : MatrixBaseException() {
 	message="The dimensions for this matrix are invalid....";
 }
-/*cppmat::MatrixDimennsionOOBException cppmat::MatrixDimennsionOOBException::create(void){
-	cppmat::MatrixDimennsionOOBException ex;
+/*cppmat::MatrixDimensionOOBException cppmat::MatrixDimensionOOBException::create(void){
+	cppmat::MatrixDimensionOOBException ex;
 	return ex;
 }*/
 
-cppmat::MatrixInvalidException::MatrixInvalidException(void) : cppmat::MatrixBaseException() {
+cppmat::MatrixInvalidException::MatrixInvalidException() : cppmat::MatrixBaseException() {
 	message="Attempting to manipulate or access an invalid matrix...";
 }

@@ -1,8 +1,11 @@
 #Master project makefile
-default: compile
+default: all
 
-compile:
+all:
 	$(MAKE) -C build/
+
+tests:
+	$(MAKE) -C tests/
 
 clean:
 	$(MAKE) -C build/ clean

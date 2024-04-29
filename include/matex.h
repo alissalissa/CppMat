@@ -10,24 +10,25 @@ namespace cppmat{
 	protected:
 		std::string message;
 	public:
-		MatrixBaseException(void);
-		const char *what(void) const noexcept;
+		MatrixBaseException();
+        MatrixBaseException(const MatrixBaseException&);
+		[[nodiscard]] const char *what() const noexcept override;
 	};
 
 	class MatrixConstructionException : public MatrixBaseException {
 	public:
-		MatrixConstructionException(void);
+		MatrixConstructionException();
 		//static MatrixConstructionException create(void);
 	};
 
-	class MatrixDimennsionOOBException : public MatrixBaseException {
+	class MatrixDimensionOOBException : public MatrixBaseException {
 	public:
-		MatrixDimennsionOOBException(void);
-		//static MatrixDimennsionOOBException create(void);
+		MatrixDimensionOOBException();
+		//static MatrixDimensionOOBException create(void);
 	};
 
 	class MatrixInvalidException : public MatrixBaseException {
 	public:
-		MatrixInvalidException(void);
+		MatrixInvalidException();
 	};
 }
