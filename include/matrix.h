@@ -25,6 +25,9 @@ namespace cppmat {
 		void swap(size_t,size_t);
 		Matrix inverse(void) const;
 
+		//debug
+		void print(void) const noexcept;
+
 		//Dimensions
 		size_t X(void) const noexcept;
 		size_t Y(void) const noexcept;
@@ -43,13 +46,14 @@ namespace cppmat {
 		Matrix operator=(const Matrix&);
 		Matrix operator*(Matrix) const;
 		Matrix operator*=(Matrix);
-		Matrix operator*(const float) const;
-		Matrix operator*=(const float);
+		Matrix operator*(float) const;
+		Matrix operator*=(float);
 		Matrix operator+(Matrix) const;
 		Matrix operator+=(Matrix);
 
 		//Static
 		static Matrix identity(size_t) noexcept;
 		static Matrix exclude_column(const cppmat::Matrix*,size_t);
+		static Matrix specific_exclude(const cppmat::Matrix*,size_t,size_t);
 	};
 }

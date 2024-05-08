@@ -136,7 +136,25 @@ BOOST_AUTO_TEST_CASE(matrix){
     cppmat::Matrix check=m81*m82;
     BOOST_CHECK_EQUAL(check[0][0],6.0);
     m81*=m82;
+    BOOST_REQUIRE(m81.X()==2 && m81.Y()==3);
     BOOST_CHECK_EQUAL(m81[0][0],6.0);
     BOOST_CHECK_THROW(m81*m83,cppmat::MatrixBaseException);
+
+	//9
+	cppmat::Matrix m9(3,3);
+	m9[0][0]=3;
+	m9[0][1]=0;
+	m9[0][2]=2;
+	m9[1][0]=2;
+	m9[1][1]=0;
+	m9[1][2]=-2;
+	m9[2][0]=0;
+	m9[2][1]=1;
+	m9[2][2]=1;
+	cppmat::Matrix m91=m9.inverse();
+	m91.print();
+	cppmat::Matrix m92=m9*m91;
+	m92.print();
+	BOOST_CHECK(m9*m91==cppmat::Matrix::identity(3));
 
 }

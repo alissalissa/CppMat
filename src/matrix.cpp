@@ -128,7 +128,7 @@ cppmat::Matrix cppmat::Matrix::operator+=(cppmat::Matrix operant){
 	return *this;
 }
 
-cppmat::Matrix cppmat::Matrix::operator*(const float coefficient) const {
+cppmat::Matrix cppmat::Matrix::operator*(float coefficient) const {
 	if(this->X()==0 || this->Y()==0)
 		throw cppmat::MatrixDimensionOOBException();
 	cppmat::Matrix ret(this->X(),this->Y());
@@ -138,7 +138,7 @@ cppmat::Matrix cppmat::Matrix::operator*(const float coefficient) const {
 	return ret;
 }
 
-cppmat::Matrix cppmat::Matrix::operator*=(const float coefficient){
+cppmat::Matrix cppmat::Matrix::operator*=(float coefficient){
 	if(this->X()==0 || this->Y()==0)
 		throw cppmat::MatrixDimensionOOBException();
 	cppmat::Matrix temp(this->X(),this->Y());
@@ -149,7 +149,7 @@ cppmat::Matrix cppmat::Matrix::operator*=(const float coefficient){
 	return temp;
 }
 
-cppmat::Matrix cppmat::Matrix::operator*(const cppmat::Matrix coefficient) const {
+cppmat::Matrix cppmat::Matrix::operator*(cppmat::Matrix coefficient) const {
 	if(coefficient.X()!=this->Y() || coefficient.Y()!=this->X())
 		throw cppmat::MatrixDimensionOOBException();
 	cppmat::Matrix ret(this->Y(),this->X());
@@ -158,8 +158,8 @@ cppmat::Matrix cppmat::Matrix::operator*(const cppmat::Matrix coefficient) const
 			ret[ny][nx]=this->Cell(ny,nx)*coefficient.Cell(nx,ny);
 	return ret;
 }
-//TODO unit tests for matrix X matrix multiplication
-cppmat::Matrix cppmat::Matrix::operator*=(const cppmat::Matrix coefficient){
+
+cppmat::Matrix cppmat::Matrix::operator*=(cppmat::Matrix coefficient){
 	if(coefficient.X()!=this->Y() || coefficient.Y()!=this->X())
 		throw cppmat::MatrixDimensionOOBException();
 	cppmat::Matrix ret(this->Y(),this->X());
@@ -232,31 +232,54 @@ float cppmat::Matrix::determinant(void) const {
 cppmat::Matrix cppmat::Matrix::inverse(void) const {
 	if(!this->is_square())
 		throw cppmat::MatrixDimensionOOBException();
-	
-	if(this->X()==0)
-		throw cppmat::MatrixDimensionOOBException();
-	else if(this->X()==1){
-		cppmat::Matrix ret(1,1);
-		ret[0][0]=1/this->Cell(0,0);
-		return ret;
-	}else if(this->X()==2){
-		cppmat::Matrix ret(2,2);
-		ret[0][0]=this->Cell(1,1);
-		ret[0][1]=this->Cell(1,0)*-1;
-		ret[1][0]=this->Cell(0,1)*-1;
-		ret[1][1]=this->Cell(0,0);
-		float coefficient = this->Cell(0,0);
-		coefficient*=this->Cell(1,1);
-		float coefficient2=this->Cell(1,0);
-		coefficient2*=this->Cell(0,1);
-		coefficient-=coefficient2;
-		coefficient*=-1;
-		ret*=coefficient;
-		return ret;
+	//this->print();
+	switch(this->X()){
+        case 0:
+		    throw cppmat::MatrixDimensionOOBException();
+            break;
+        case 1: {
+	        cppmat::Matrix ret(1, 1);
+	        ret[0][0] = 1 / this->Cell(0, 0);
+	        return ret;
+	        break;
+        }
+        case 2: {
+	        cppmat::Matrix ret(2, 2);
+	        ret[0][0] = this->Cell(1, 1);
+	        ret[0][1] = this->Cell(1, 0) * -1;
+	        ret[1][0] = this->Cell(0, 1) * -1;
+	        ret[1][1] = this->Cell(0, 0);
+	        float coefficient = this->Cell(0, 0);
+	        coefficient *= this->Cell(1, 1);
+	        float coefficient2 = this->Cell(1, 0);
+	        coefficient2 *= this->Cell(0, 1);
+	        coefficient -= coefficient2;
+	        coefficient *= -1;
+	        ret *= coefficient;
+	        return ret;
+			break;
+        }
+		default: {
+			//Create the matrix of minors
+			cppmat::Matrix minors(this->X(),this->Y());
+			for(size_t ny=0;ny<this->Y();ny++)
+				for (size_t nx = 0; nx < this->X(); nx++) {
+					cppmat::Matrix temp=cppmat::Matrix::specific_exclude(this,nx,ny);
+					//temp.print();
+					minors[ny][nx] = temp.determinant();
+				}
+			//minors.print();
+			//Create cofactors
+			for(size_t ny=0;ny<minors.Y();ny++)
+				for(size_t nx=0;nx<minors.X();nx++)
+					minors[ny][nx]*=((ny%2)?(nx%2?1:-1):((nx%2)?-1:1));
+			//Transpose
+			minors.transpose();
+			float det=this->determinant();
+			minors*=(1/det);
+			return minors;
+		}
 	}
-
-	//Create the matrix of minors
-	cppmat::Matrix minors(this->X(),this->Y());
 }
 
 //Identity
@@ -288,6 +311,31 @@ cppmat::Matrix cppmat::Matrix::exclude_column(const cppmat::Matrix *h,size_t col
 		}
 	}
 	return ret;
+}
+
+cppmat::Matrix cppmat::Matrix::specific_exclude(const cppmat::Matrix *haystack, size_t ex, size_t ey) {
+	if(ex>=haystack->X() || ey>=haystack->Y() || haystack->X()==0 || haystack->Y()==0)
+		throw cppmat::MatrixDimensionOOBException();
+	cppmat::Matrix ret(haystack->X()-1,haystack->Y()-1);
+	//haystack->print();
+	for(size_t ny=0;ny<haystack->Y();ny++){
+		for(size_t nx=0;nx<haystack->X();nx++){
+			if (ny != ey && nx != ex) {
+				ret[(ny < ey) ? ny : (ny - 1)][(nx < ex) ? nx : (nx - 1)] = haystack->Cell(nx,ny);
+			}
+		}
+	}
+	//ret.print();
+	return ret;
+}
+
+void cppmat::Matrix::print(void) const noexcept {
+	for (size_t ny = 0; ny < this->Y(); ny++) {
+		for (size_t nx = 0; nx < this->X(); nx++)
+			std::cout<<this->Cell(nx,ny)<<"\t\t";
+		std::cout<<std::endl;
+	}
+
 }
 
 #pragma clang diagnostic pop
