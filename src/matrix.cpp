@@ -74,6 +74,15 @@ cppmat::MatrixRow &cppmat::Matrix::operator[](size_t y_select){
 	return rows[y_select];
 }
 
+cppmat::MatrixRow cppmat::Matrix::column(size_t index) const {
+	if(index>this->X())
+		throw cppmat::MatrixDimensionOOBException();
+	cppmat::MatrixRow ret(this->Y());
+	for(size_t row=0;row<this->Y();row++)
+		ret[row]=this->Cell(index,row);
+	return ret;
+}
+
 //Just for unit tests
 cppmat::MatrixRow *cppmat::Matrix::Rows(void) const noexcept {
 	return rows;
@@ -149,13 +158,20 @@ cppmat::Matrix cppmat::Matrix::operator*=(float coefficient){
 	return temp;
 }
 
-cppmat::Matrix cppmat::Matrix::operator*(cppmat::Matrix coefficient) const {
+cppmat::Matrix cppmat::Matrix::operator*(const cppmat::Matrix& coefficient) const {
 	if(coefficient.X()!=this->Y() || coefficient.Y()!=this->X())
 		throw cppmat::MatrixDimensionOOBException();
-	cppmat::Matrix ret(this->Y(),this->X());
-	for(size_t ny=0;ny<ret.Y();ny++)
-		for(size_t nx=0;nx<ret.X();nx++)
-			ret[ny][nx]=this->Cell(ny,nx)*coefficient.Cell(nx,ny);
+	cppmat::Matrix ret(this->Y(),coefficient.X());
+	for(size_t row=0;row<this->Y();row++){
+		for(size_t col=0;col<coefficient.X();col++){
+			cppmat::MatrixRow column=coefficient.column(col);
+			column=column*this->Row(row);
+			float sum=0.0;
+			for(size_t i=0;i<column.size();i++)
+				sum+=column[i];
+			ret[row][col]=sum;
+		}
+	}
 	return ret;
 }
 

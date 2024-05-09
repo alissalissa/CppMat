@@ -37,6 +37,7 @@ namespace cppmat {
 		float Cell(size_t,size_t) const;
 		MatrixRow Row(size_t) const;
 		MatrixRow *Rows(void) const noexcept;
+		MatrixRow column(size_t) const;
 
 		MatrixRow &operator[](size_t);
 
@@ -44,7 +45,7 @@ namespace cppmat {
 		bool operator==(const Matrix&) const noexcept;
 		bool operator!=(const Matrix&) const noexcept;
 		Matrix operator=(const Matrix&);
-		Matrix operator*(Matrix) const;
+		Matrix operator*(const Matrix&) const;
 		Matrix operator*=(Matrix);
 		Matrix operator*(float) const;
 		Matrix operator*=(float);

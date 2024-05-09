@@ -118,6 +118,15 @@ cppmat::MatrixRow cppmat::MatrixRow::operator*=(float operand){
 	return dummy;
 }
 
+cppmat::MatrixRow cppmat::MatrixRow::operator*(const cppmat::MatrixRow& operand) const {
+	if(operand.size()!=this->size())
+		throw cppmat::MatrixDimensionOOBException();
+	cppmat::MatrixRow ret(this->size());
+	for(size_t i=0;i<this->size();i++)
+		ret[i]=this->Value(i)*operand.Value(i);
+	return ret;
+}
+
 cppmat::MatrixRow cppmat::MatrixRow::operator=(const cppmat::MatrixRow& haystack){
 	n=haystack.size();
 	values=(float*)realloc(values,n*sizeof(float));

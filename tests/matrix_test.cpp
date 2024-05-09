@@ -125,21 +125,30 @@ BOOST_AUTO_TEST_CASE(matrix){
 
     //8
     cppmat::Matrix m81(3,2);
-    cppmat::Matrix m82(2,3);
-    cppmat::Matrix m83(4,1);
-    for(int i=0;i<3;i++) {
-        for (int j = 0; j < 2; j++) {
-            m81[j][i] = 2.0;
-            m82[i][j] = 3.0;
-        }
-    }
-    cppmat::Matrix check=m81*m82;
-    BOOST_CHECK_EQUAL(check[0][0],6.0);
-    m81*=m82;
-    BOOST_REQUIRE(m81.X()==2 && m81.Y()==3);
-    BOOST_CHECK_EQUAL(m81[0][0],6.0);
-    BOOST_CHECK_THROW(m81*m83,cppmat::MatrixBaseException);
-
+    m81[0][0]=1;
+	m81[0][1]=2;
+	m81[0][2]=3;
+	m81[1][0]=4;
+	m81[1][1]=5;
+	m81[1][2]=6;
+	cppmat::Matrix m82(2,3);
+	m82[0][0]=7;
+	m82[0][1]=8;
+	m82[1][0]=9;
+	m82[1][1]=10;
+	m82[2][0]=11;
+	m82[2][1]=12;
+	cppmat::Matrix m83=m81*m82;
+	BOOST_CHECK_EQUAL(m83.X(),2);
+	BOOST_CHECK_EQUAL(m83.Y(),2);
+	cppmat::Matrix m84(2,2);
+	m84[0][0]=58;
+	m84[0][1]=64;
+	m84[1][0]=139;
+	m84[1][1]=154;
+	BOOST_CHECK(m83==m84);
+	BOOST_CHECK_THROW(m81*m84,cppmat::MatrixBaseException);
+	
 	//9
 	cppmat::Matrix m9(3,3);
 	m9[0][0]=3;
@@ -152,9 +161,9 @@ BOOST_AUTO_TEST_CASE(matrix){
 	m9[2][1]=1;
 	m9[2][2]=1;
 	cppmat::Matrix m91=m9.inverse();
-	m91.print();
+	//m91.print();
 	cppmat::Matrix m92=m9*m91;
-	m92.print();
+	//m92.print();
 	BOOST_CHECK(m9*m91==cppmat::Matrix::identity(3));
 
 }

@@ -34,6 +34,7 @@ namespace cppmat {
 		MatrixRow operator-=(float);
 		MatrixRow operator*(float) const;
 		MatrixRow operator*=(float);
+		MatrixRow operator*(const MatrixRow&) const;
 		MatrixRow operator=(const MatrixRow&);
     };
 }
